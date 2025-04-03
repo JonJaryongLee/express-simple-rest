@@ -2,7 +2,7 @@
   "name": "express-simple-rest",
   "version": "1.0.0",
   "description": "express simple rest api",
-  "main": "app.js",
+  "main": "main.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
