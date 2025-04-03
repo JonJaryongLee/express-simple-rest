@@ -137,19 +137,19 @@ app.post("/api/v1/articles", (req, res) => {
 
   db.run(
     "INSERT INTO article (title, content) VALUES (?, ?)",
-    [title, content],
+    [title.trim(), content.trim()],
     (err) => {
       if (err) {
         return res.status(500).json({ message: err.message });
       }
-      return res.json({ id: this.lastID });
+      res.json({ message: "data created." });
     }
   );
 });
 
 /**
- * @api {put} /api/v1/articles/:id 게시글 수정
- * @apiName PutArticle
+ * @api {patch} /api/v1/articles/:id 게시글 수정
+ * @apiName PatchArticle
  * @apiGroup Article
  *
  * @apiParam {Number} id 게시글의 고유 ID.
@@ -158,7 +158,7 @@ app.post("/api/v1/articles", (req, res) => {
  *
  * @apiSuccess {Number} id 수정된 게시글의 ID.
  */
-app.put("/api/v1/articles/:id", (req, res) => {
+app.patch("/api/v1/articles/:id", (req, res) => {
   const { title, content } = req.body;
   const id = req.params.id;
 
@@ -180,8 +180,8 @@ app.put("/api/v1/articles/:id", (req, res) => {
 
   db.run(
     "UPDATE article SET title = ?, content = ? WHERE id = ?",
-    [title, content, id],
-    (err) => {
+    [title.trim(), content.trim(), id],
+    function (err) {
       if (err) {
         return res.status(500).json({ message: err.message });
       }
@@ -204,7 +204,7 @@ app.put("/api/v1/articles/:id", (req, res) => {
  */
 app.delete("/api/v1/articles/:id", (req, res) => {
   const id = req.params.id;
-  db.run("DELETE FROM article WHERE id = ?", id, (err) => {
+  db.run("DELETE FROM article WHERE id = ?", id, function (err) {
     if (err) {
       return res.status(500).json({ message: err.message });
     }
